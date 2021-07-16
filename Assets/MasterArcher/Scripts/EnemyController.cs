@@ -31,8 +31,8 @@ public class EnemyController : MonoBehaviour {
 	public GameObject enemyTurnPivot;
 	public GameObject enemyShootPosition;
 	//Hidden gameobjects
-	private GameObject gc;							//game controller object
-	private GameObject cam;							//main camera
+	//private GameObject gc;							//game controller object
+	//private GameObject cam;							//main camera
 
 	[Header("Audio Clips")]
 	public AudioClip[] shootSfx;
@@ -54,8 +54,8 @@ public class EnemyController : MonoBehaviour {
 		canShoot = false;
 		//isEnemyDead = false;
 		gotLastHit = false;
-		gc = GameObject.FindGameObjectWithTag ("GameController");
-		cam = GameObject.FindGameObjectWithTag ("MainCamera");
+		//gc = GameObject.FindGameObjectWithTag ("GameController");
+		//cam = GameObject.FindGameObjectWithTag ("MainCamera");
 
 		//Increase difficulty by decreasing the enemy error when shooting
 		//Please note that "shootAngleError" is not editable. If you want to change the precision, you need to edit "fakeWindPower"
