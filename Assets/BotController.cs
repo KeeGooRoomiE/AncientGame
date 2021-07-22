@@ -46,9 +46,43 @@ public class BotController : MonoBehaviour
     public GameObject arrowObject;
     public GameObject botTarget;
 
+    /*
+     * 
+     * Set edit functions to shot await time
+     * 
+     */
+    public void SetIsFixedTimeBeforeShot(bool val)
+    {
+        isFixedTimeBeforeShot = val;
+        UpdateTimetoShot();
+    }
+
     public void SetShotAwaitTime(string val) {
         shotAwaitTime = Single.Parse(val);
         UpdateTimetoShot();
+    }
+
+    public void SetMinShotAwaitTime(string val)
+    {
+        minShotAwaitTime = Single.Parse(val);
+        UpdateTimetoShot();
+    }
+
+    public void SetMaxShotAwaitTime(string val)
+    {
+        maxShotAwaitTime = Single.Parse(val);
+        UpdateTimetoShot();
+    }
+
+    /*
+     * 
+     * Set edit functions to pierce await time
+     * 
+     */
+    public void SetIsFixedTimeBeforePierce(bool val)
+    {
+        isFixedTimeBeforePierce = val;
+        UpdateTimetoPierce();
     }
 
     public void SetPireceTime(string val)
@@ -63,36 +97,47 @@ public class BotController : MonoBehaviour
         UpdateTimetoPierce();
     }
 
-    public void SetMinShotAwaitTime(string val)
-    {
-        minShotAwaitTime = Single.Parse(val);
-        UpdateTimetoShot();
-    }
-
     public void SetMaxPireceTime(string val)
     {
         maxPierceTime = Single.Parse(val);
         UpdateTimetoPierce();
     }
 
-    public void SetMaxShotAwaitTime(string val)
+    /*
+     * 
+     * Set edit functions to back animation rotation state
+     * 
+     */
+
+    public void SetisFixedTimeToBackRot(bool val)
     {
-        maxShotAwaitTime = Single.Parse(val);
-        UpdateTimetoShot();
+        isFixedTimeToBackRot = val;
+        UpdateTimetoBackRot();
     }
 
-    public void SetIsFixedTimeBeforePierce(bool val)
+    public void SetbackRotateTime(string val)
     {
-        isFixedTimeBeforePierce = val;
-        UpdateTimetoPierce();
+        backRotateTime = Single.Parse(val);
+        UpdateTimetoBackRot();
     }
 
-    public void SetIsFixedTimeBeforeShot(bool val)
+    public void SetMinBackRotateTime(string val)
     {
-        isFixedTimeBeforeShot = val;
-        UpdateTimetoShot();
+        minBackRotateTime = Single.Parse(val);
+        UpdateTimetoBackRot();
     }
 
+    public void SetMaxBackRotateTime(string val)
+    {
+        maxBackRotateTime = Single.Parse(val);
+        UpdateTimetoBackRot();
+    }
+
+    /*
+     * 
+     * Set edit functions to update time to shot
+     * 
+     */
     public void UpdateTimetoShot()
     {
         if (isFixedTimeBeforeShot)
@@ -106,6 +151,11 @@ public class BotController : MonoBehaviour
         }
     }
 
+    /*
+     * 
+     * Set edit functions to update time to shot
+     * 
+     */
     public void UpdateTimetoPierce()
     {
         if (isFixedTimeBeforePierce)
@@ -120,6 +170,12 @@ public class BotController : MonoBehaviour
         }
     }
 
+    /*
+     * 
+     * Set edit functions to update time to back rotation state
+     * 
+     */
+
     public void UpdateTimetoBackRot()
     {
         if (isFixedTimeToBackRot)
@@ -133,6 +189,12 @@ public class BotController : MonoBehaviour
             botObject.GetComponent<EnemyController>().timeToBackRot = t;
         }
     }
+
+    /*
+     * 
+     * Set edit functions to update time between shots
+     * 
+     */
 
     public void UpdateTimeToReload()
     {
