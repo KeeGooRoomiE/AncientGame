@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour {
 	public bool useHelper = false;					//use helper dots when player is aiming to shoot
 	public int baseShootPower = 30;					//base power. edit with care.
 	//public int playerHealth = 100;					//starting (full) health. can be edited.
-	private int minShootPower = 15;					//powers lesser than this amount are ignored. (used to cancel shoots)
+	[SerializeField] private int minShootPower = 15;					//powers lesser than this amount are ignored. (used to cancel shoots)
 	//internal int playerCurrentHealth;				//real-time health. not editable.
 	//public static bool isPlayerDead;				//flag for gameover event
 
@@ -73,7 +74,15 @@ public class PlayerController : MonoBehaviour {
 		//helperDelayIsDone = false;
 	}
 
+	public void SetPlayerShotForce(string val)
+	{
+		baseShootPower = int.Parse(val);
+	}
 
+	public void SetPlayerMinShotForce(string val)
+	{
+		minShootPower = int.Parse(val);
+	}
 	/// <summary>
 	/// FSM
 	/// </summary>

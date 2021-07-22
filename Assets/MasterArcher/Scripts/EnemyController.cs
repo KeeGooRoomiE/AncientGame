@@ -24,12 +24,17 @@ public class EnemyController : MonoBehaviour {
 	internal bool gotLastHit = false;               //will set to ture if enemy got hit in the previous round (by player)
 	public float targetAngle;
 	public GameObject target;
+	public float timeToPierce;
+	public float timeToShot;
+	public float timeToBackRot;
+	public float timeToNextShot;
 
 	[Header("Linked GameObjects")]
 	//Reference to game objects (childs and prefabs)
 	public GameObject arrow;
 	public GameObject enemyTurnPivot;
 	public GameObject enemyShootPosition;
+	public BotController parent;
 	//Hidden gameobjects
 	//private GameObject gc;							//game controller object
 	//private GameObject cam;							//main camera
@@ -146,8 +151,7 @@ public class EnemyController : MonoBehaviour {
 
 
 	/// <summary>
-	/// Enemy shoot AI.
-	/// We just need to create the enemy-Arrow and feed it with initial shoot angle. It will calculate the shoot-power itself.
+	/// Making a shot by unit
 	/// </summary>
 	IEnumerator shootArrow() {
 
@@ -156,82 +160,109 @@ public class EnemyController : MonoBehaviour {
 
 		canShoot = false;
 
-		//if enemy needs to move a little after getting hit in the last round...
-		//we can do this to prevent player from using the same setting (power + angle) to hit the enemy again...
-		if (gotLastHit) {
-			yield return new WaitForSeconds (2);
-			float curPosX = transform.position.x;
-			float newPosX = transform.position.x + Random.Range (4, 9);
+        #region //unit movement
+        /*
+		////if enemy needs to move a little after getting hit in the last round...
+		////we can do this to prevent player from using the same setting (power + angle) to hit the enemy again...
+		//if (gotLastHit) {
+		//	yield return new WaitForSeconds (2);
+		//	float curPosX = transform.position.x;
+		//	float newPosX = transform.position.x + Random.Range (4, 9);
 
-			float a = 0;
-			while (a < 1) {
-				a += Time.deltaTime;
-				transform.position = new Vector3 (Mathf.Lerp (curPosX, newPosX, a), transform.position.y, transform.position.z);
-				yield return 0;
-			}
+		//	float a = 0;
+		//	while (a < 1) {
+		//		a += Time.deltaTime;
+		//		transform.position = new Vector3 (Mathf.Lerp (curPosX, newPosX, a), transform.position.y, transform.position.z);
+		//		yield return 0;
+		//	}
 
-			if (a >= 1) {
-				//reset lasthit state
-				gotLastHit = false;
-			}
-		}
+		//	if (a >= 1) {
+		//		//reset lasthit state
+		//		gotLastHit = false;
+		//	}
+		//}
+		*/
+        #endregion
 
-		//set the unique flag
-		//GameController.isArrowInScene = true;
+        /*
+		 * Updates time taken to pierce(before shot, after checking target position)
+		 * After that time unit will rotate his part to make a shot
+		 * Edit values in AIController
+		 */
 
-		//wait a little for the camera to correctly get in position
-		yield return new WaitForSeconds (0.95f);
+        parent.UpdateTimetoPierce();
+		print("timeToPierce = "+timeToPierce);
+		yield return new WaitForSeconds (timeToPierce);
 
-		//we need to rotate enemy body to a random/calculated rotation angle
+		/*
+		 * Unit rotation value to a time-destination lerp step-by-step
+		 */
+
+		//angle of rotation equals distance between unit and target(sometimes w/ adding damping)
 		targetAngle = Vector3.Distance(transform.position, target.transform.position);// * -Physics.gravity.y;//Random.Range(55, 75); //* -1; 	//important! (originate from 65)
-		print("enemy angle is: " + targetAngle);
+		print("targetAngle = " + targetAngle);
 		float t = 0;
 		while (t < 1) {
 			t += Time.deltaTime;
 			enemyTurnPivot.transform.rotation = Quaternion.Euler (0, 0, Mathf.SmoothStep (0, targetAngle, t));
 			yield return 0;
 		}
-			
-		print ("Enemy Fired!");
 
-		//play shoot sound
+		/*
+		 * Updates time taken to shot(before actual shot, after rotating to a pierce)
+		 * After that time unit will create a bullet
+		 * Edit values in AIController
+		 */
+
+		parent.UpdateTimetoShot();
+		print("timeToShot = " + timeToShot);		//log
+		yield return new WaitForSeconds(timeToShot);
+
 		playSfx(shootSfx[Random.Range(0, shootSfx.Length)]);
 
-		//shoot calculations
 		GameObject ea = Instantiate(arrow, enemyShootPosition.transform.position, Quaternion.Euler(0, 0, enemyTurnPivot.transform.rotation.z)) as GameObject;
 		ea.name = "EnemyProjectile";
 		ea.GetComponent<MainLauncherController> ().ownerID = 1;
 
 		float finalShootAngle = baseShootAngle + Random.Range (-shootAngleError, shootAngleError);
 		ea.GetComponent<MainLauncherController> ().enemyShootAngle = finalShootAngle;
-		print("Final enemy shoot angle: " + finalShootAngle);
 
-		//cam.GetComponent<CameraController> ().targetToFollow = ea;
-
-		//at the end
-		StartCoroutine(reactiveEnemyShoot ());
-
-		//reset body rotation
+		StartCoroutine(reactiveEnemyShoot());
 		StartCoroutine(resetBodyRotation());
 	}
 
-
 	/// <summary>
-	/// tunr enemy body to default rotation
+	/// Sets unit rotation to default values
 	/// </summary>
 	IEnumerator resetBodyRotation() {
 
-		yield return new WaitForSeconds(1.5f);
+		/*
+		 * Updates time taken to rotate to default(after actual shot, after rotating to a pierce)
+		 * After that time unit will rotate itself to default state
+		 * Edit values in AIController
+		 */
+
+		parent.UpdateTimetoBackRot();
+		print("timeToBackRot = " + timeToBackRot);
+		yield return new WaitForSeconds(timeToBackRot);
 		enemyTurnPivot.transform.eulerAngles = new Vector3(0, 0, 0);
 
 	}
 
 
 	/// <summary>
-	/// Enable enemy to shoot again
+	/// Enable unit to shot again
 	/// </summary>
 	IEnumerator reactiveEnemyShoot() {
-		yield return new WaitForSeconds (2);
+		/*
+		 * Updates time taken to able unit make a shot(after set to default rotation)
+		 * After that time unit will make himself able to shot again
+		 * Edit values in AIController
+		 */
+
+		parent.UpdateTimeToReload();
+		print("timeToNextShot = " + timeToNextShot);
+		yield return new WaitForSeconds (timeToNextShot);
 		canShoot = true;
 	}
 
