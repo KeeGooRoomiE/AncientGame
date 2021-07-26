@@ -8,14 +8,15 @@ public class FrogAnimationFlightBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0,ImpulseForce,0), ForceMode.Impulse);
+        //yield return new WaitForSeconds(0.5f);
+        animator.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, ImpulseForce, 0), ForceMode.Impulse);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        //animator.gameObject.GetComponent<CapsuleCollider>()
-    }
+    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    //animator.gameObject.GetComponent<CapsuleCollider>()
+    //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
