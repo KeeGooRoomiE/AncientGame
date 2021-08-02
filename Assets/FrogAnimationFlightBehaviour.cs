@@ -5,11 +5,20 @@ using UnityEngine;
 public class FrogAnimationFlightBehaviour : StateMachineBehaviour
 {
     [SerializeField] private int ImpulseForce;
+    [SerializeField] private GameObject _obj;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //yield return new WaitForSeconds(0.5f);
-        animator.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, ImpulseForce, 0), ForceMode.Impulse);
+        _obj = animator.gameObject;
+        Await(1f);
+        animator.gameObject.GetComponent<FrogAnimationQueuer>().MoveFrog(ImpulseForce);
+    }
+
+    IEnumerator Await(float time)
+    {
+        yield return new WaitForSeconds(time);
+        //_obj.GetComponent<FrogAnimationQueuer>().MoveFrog(ImpulseForce);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

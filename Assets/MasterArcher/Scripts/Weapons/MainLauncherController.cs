@@ -37,6 +37,11 @@ public class MainLauncherController : MonoBehaviour {
 	public GameObject bloodFx;
 	public GameObject trailFx;
 	public GameObject explosionFx;
+	public GameObject image;
+	public GameObject tex;
+	[SerializeField] private Color col;
+	public float alphaValue = 1f;
+	public bool canChangeALpha = false;
 
 	//all available arrow types (Each with their unique behaviours)
 	public enum arrowTypes { Arrow, Grenade, Sword, Axe, Bomb }
@@ -127,6 +132,17 @@ public class MainLauncherController : MonoBehaviour {
 			rotateWeapon (150);
 			explodeOnTouch ();
 		}
+
+		if (canChangeALpha)
+        {
+			if (alphaValue > 0f) {
+				alphaValue -= 0.01f;
+				print("_bullet alphaValue: "+alphaValue);
+			}
+        }
+		print("accepting its alpha to material...");
+		col.a = alphaValue;
+		image.GetComponent<SpriteRenderer>().color = col;
 
 		//Only for birdhunt & appleshot game modes.
 		//destroy the arrow after 2 seconds or after exiting the view
@@ -242,7 +258,6 @@ public class MainLauncherController : MonoBehaviour {
 		}
 	}
 
-
 	/// <summary>
 	/// Check for collisions
 	/// </summary>
@@ -284,6 +299,13 @@ public class MainLauncherController : MonoBehaviour {
 				Destroy (gameObject, 0.01f);
 			}
 
+			if (gameObject.tag == "arrow")
+            {
+				canChangeALpha = true;
+				tex.SetActive(false);
+				image.SetActive(true);
+				print("able to make a bullet change its alpha");
+			}
 			//GameController.isArrowInScene = false;
 
 			//We only change turns if this game more requires an enemy

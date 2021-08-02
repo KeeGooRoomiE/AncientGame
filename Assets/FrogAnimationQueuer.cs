@@ -1,23 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
-using Spine;
 using UnityEngine;
-using AnimationState = Spine.AnimationState;
 
 public class FrogAnimationQueuer : MonoBehaviour
 {
-   [SerializeField] private AnimationStateData stateData;
-   [SerializeField] private AnimationState state;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Rigidbody _rigid;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        //TrackEntry entry = addAnimation(1, "idle", true, 0.2);
+        _animator = GetComponent<Animator>();
+        _rigid = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        _animator.Play("benc");
+    }
+
+    public void MoveFrog(int spd)
+    {
+       
+        _rigid.AddForce(new Vector3(0, spd, 0), ForceMode.Impulse);
+
+    }
+
+    public void SetAnimation(string name)
+    {
+        _animator.Play(name);
     }
 }
