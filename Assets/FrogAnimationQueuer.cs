@@ -15,14 +15,27 @@ public class FrogAnimationQueuer : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        _animator.Play("benc");
+        if (collision.collider.tag == "arrow")
+        {
+            _animator.Play("benc");
+            collision.collider.gameObject.GetComponent<MainLauncherController>().AbleChangeAlpha(true);
+        }
+        
     }
 
-    public void MoveFrog(int spd)
+    public void MoveFrog(float time, float spd)
     {
-       
-        _rigid.AddForce(new Vector3(0, spd, 0), ForceMode.Impulse);
 
+        //yield return new WaitForSeconds(1.6f);
+        //_rigid.AddForce(new Vector3(0, spd, 0), ForceMode.Impulse);
+        StartCoroutine(Await(time, spd));
+
+    }
+
+    IEnumerator Await(float time, float spd)
+    {
+        yield return new WaitForSeconds(time);
+        _rigid.AddForce(new Vector3(0, spd, 0), ForceMode.Impulse);
     }
 
     public void SetAnimation(string name)

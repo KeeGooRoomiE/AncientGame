@@ -4,27 +4,38 @@ using UnityEngine;
 
 public class FrogAnimationFlightBehaviour : StateMachineBehaviour
 {
-    [SerializeField] private int ImpulseForce;
-    [SerializeField] private GameObject _obj;
+    [SerializeField] private float ImpulseForce;
+    [SerializeField] private float awaitTime;
+    //private GameObject _obj;
+    //private bool canAddForce = false;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //yield return new WaitForSeconds(0.5f);
-        _obj = animator.gameObject;
-        Await(1f);
-        animator.gameObject.GetComponent<FrogAnimationQueuer>().MoveFrog(ImpulseForce);
+        //_obj = animator.gameObject;
+        //IEnumerator cor = Await(1.2f);
+        //UnityEngine.MonoBehaviour.StartCoroutine(gameObject.cor);
+        //animator.gameObject.GetComponent<FrogAnimationQueuer>().MoveFrog(ImpulseForce);
+        animator.gameObject.GetComponent<FrogAnimationQueuer>().MoveFrog(awaitTime, ImpulseForce);
     }
 
-    IEnumerator Await(float time)
-    {
-        yield return new WaitForSeconds(time);
-        //_obj.GetComponent<FrogAnimationQueuer>().MoveFrog(ImpulseForce);
-    }
+    //IEnumerator Await(float time)
+    //{
+    //    yield return new WaitForSeconds(time);
+    //    canAddForce = true;
+    //    Debug.Log("able to add force");
+    //}
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+    //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
     //    //animator.gameObject.GetComponent<CapsuleCollider>()
+    //    if (canAddForce)
+    //    {
+            
+    //        canAddForce = false;
+    //        Debug.Log("added force");
+    //    }
     //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

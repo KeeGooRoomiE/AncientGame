@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour {
 
@@ -24,12 +25,15 @@ public class PlayerController : MonoBehaviour {
 	//public GameObject trajectoryHelper;
 	public GameObject playerTurnPivot;
 	public GameObject playerShootPosition;
+	public int playerAmmo;
+	private bool canShot = true;
 	//public GameObject infoPanel;
 	//public GameObject UiDynamicPower;
 	//public GameObject UiDynamicDegree;
 	//Hidden gameobjects
 	private GameObject gc;	//game controller object
-	private GameObject cam;	//main camera
+	private GameObject cam; //main camera
+	[SerializeField] TextMeshPro text;
 
 	//[Header("Audio Clips")]
 	//public AudioClip[] shootSfx;
@@ -79,74 +83,70 @@ public class PlayerController : MonoBehaviour {
 		baseShootPower = int.Parse(val);
 	}
 
+	public void SetPlayerAmmo(string val)
+	{
+		playerAmmo = int.Parse(val);
+	}
+
 	public void SetPlayerMinShotForce(string val)
 	{
 		minShootPower = int.Parse(val);
 	}
-	/// <summary>
-	/// FSM
-	/// </summary>
+
 	void Update () {
 
-		//if the game has not started yet, or the game is finished, just return
-		//if (!GameController.gameIsStarted || GameController.gameIsFinished)
-			//return;
+		if (playerAmmo <= 0)
+        {
+			canShot = false;
+        } else
+        {
+			canShot = true;
+        }
 
-		//Check if this object is dead or alive
-		//if (playerCurrentHealth <= 0) {
-			//print ("Player is dead...");
-			//playerCurrentHealth = 0;
-			//isPlayerDead = true;
-			//return;
-		//}
-
-		//if this is not our turn, just return
-//
-
-		//if we already have an arrow in scene, we can not shoot another one!
-		//if (GameController.isArrowInScene)
-			//return;
-
-		//if (!PauseManager.enableInput)
-			//return;
+		text.text = playerAmmo.ToString();
 
 		//Player pivot turn manager
 		if (Input.GetMouseButton (0)) {
-			
-			turnPlayerBody ();
 
-			//only show shot info when we are fighting with an enemy
-			//if (GameModeController.isEnemyRequired ())
-				//infoPanel.SetActive (true);
-
-			//helperShowTimer += Time.deltaTime;
-			//if (helperShowTimer >= helperShowDelay)
-			//	helperDelayIsDone = true;
+			//able to make shot or pierce
+			if (canShot) {
+				turnPlayerBody();
+			}
 		}
 
-		//register the initial Click Position
-		if (Input.GetMouseButtonDown (0)) {
-			icp = new Vector2(inputPosX, inputPosY);
-			print ("icp: " + icp);
-			print ("icp magnitude: " + icp.magnitude);
-		}
-
-		//clear the initial Click Position
-		if (Input.GetMouseButtonUp (0)) {
-
-			//only shoot if there is enough power applied to the shoot
-			if (shootPower >= minShootPower) {
-				shootArrow ();
-			} else {
-				//reset body rotation
-				StartCoroutine(resetBodyRotation());
+		//if ammo left is bigger than zero, make a shot
+		if (canShot == true)
+		{
+			//register the initial Click Position
+			if (Input.GetMouseButtonDown(0))
+			{
+				icp = new Vector2(inputPosX, inputPosY);
+				print("icp: " + icp);
+				print("icp magnitude: " + icp.magnitude);
 			}
 
-			//reset variables
-			icp = new Vector2 (0, 0);
-			//infoPanel.SetActive (false);
-			//helperShowTimer = 0;
-			helperDelayIsDone = false;
+			//clear the initial Click Position
+			if (Input.GetMouseButtonUp(0))
+			{
+
+				//only shoot if there is enough power applied to the shoot
+				if (shootPower >= minShootPower)
+				{
+					shootArrow();
+					playerAmmo -= 1;
+				}
+				else
+				{
+					//reset body rotation
+					StartCoroutine(resetBodyRotation());
+				}
+
+				//reset variables
+				icp = new Vector2(0, 0);
+				//infoPanel.SetActive (false);
+				//helperShowTimer = 0;
+				helperDelayIsDone = false;
+			}
 		}
 	}
 
