@@ -42,6 +42,7 @@ public class MainLauncherController : MonoBehaviour {
 	[SerializeField] private Color col;
 	public float alphaValue = 1f;
 	public bool canChangeALpha = false;
+	[SerializeField] private int clearTime;
 
 	//all available arrow types (Each with their unique behaviours)
 	public enum arrowTypes { Arrow, Grenade, Sword, Axe, Bomb }
@@ -114,7 +115,7 @@ public class MainLauncherController : MonoBehaviour {
 		GetComponent<BoxCollider> ().enabled = true;*/
 
 		//we can destroy the arrow after a short time (if it is not already destroyed)
-		Destroy (gameObject, 45);
+		Destroy (gameObject, clearTime);
 	}
 
 	
@@ -317,15 +318,15 @@ public class MainLauncherController : MonoBehaviour {
 				//print("able to make a bullet change its alpha");
 			}
 
-			//if (gameObject.tag == "axe")
-			//{
-			//	canChangeALpha = true;
-			//	//tex.SetActive(false);
-			//	//image.SetActive(true);
-			//	//print("able to make a bullet change its alpha");
-			//}
+            if (gameObject.tag == "axe")
+            {
+                //canChangeALpha = true;
+                tex.SetActive(true);
+                image.SetActive(false);
+                //print("able to make a bullet change its alpha");
+            }
 
-		}
+        }
 
 		if (oTag == "water" || oTag == "bird")
 		{
