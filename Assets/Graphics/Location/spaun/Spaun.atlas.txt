@@ -1,0 +1,62 @@
+
+Spaun.png
+size: 528,528
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+L_1
+  rotate: true
+  xy: 124, 139
+  size: 110, 95
+  orig: 110, 97
+  offset: 0, 2
+  index: -1
+L_2
+  rotate: false
+  xy: 105, 34
+  size: 116, 91
+  orig: 116, 91
+  offset: 0, 0
+  index: -1
+L_3
+  rotate: false
+  xy: 158, 307
+  size: 61, 127
+  orig: 61, 127
+  offset: 0, 0
+  index: -1
+L_4
+  rotate: false
+  xy: 158, 436
+  size: 87, 90
+  orig: 87, 90
+  offset: 0, 0
+  index: -1
+L_5
+  rotate: false
+  xy: 2, 127
+  size: 120, 122
+  orig: 120, 122
+  offset: 0, 0
+  index: -1
+L_6
+  rotate: true
+  xy: 2, 10
+  size: 115, 101
+  orig: 115, 101
+  offset: 0, 0
+  index: -1
+N
+  rotate: true
+  xy: 2, 2
+  size: 6, 241
+  orig: 8, 243
+  offset: 1, 1
+  index: -1
+T
+  rotate: false
+  xy: 2, 251
+  size: 154, 275
+  orig: 156, 277
+  offset: 1, 1
+  index: -1

@@ -1,0 +1,111 @@
+
+unit.png
+size: 459,459
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+большой палец
+  rotate: true
+  xy: 342, 37
+  size: 40, 25
+  orig: 42, 27
+  offset: 1, 1
+  index: -1
+бровь
+  rotate: false
+  xy: 357, 285
+  size: 54, 16
+  orig: 56, 18
+  offset: 1, 1
+  index: -1
+глаз
+  rotate: false
+  xy: 375, 106
+  size: 23, 15
+  orig: 25, 17
+  offset: 1, 1
+  index: -1
+голова
+  rotate: false
+  xy: 126, 127
+  size: 189, 142
+  orig: 189, 142
+  offset: 0, 0
+  index: -1
+зрачек
+  rotate: false
+  xy: 448, 185
+  size: 8, 8
+  orig: 10, 10
+  offset: 1, 1
+  index: -1
+кисть
+  rotate: false
+  xy: 270, 33
+  size: 70, 88
+  orig: 70, 89
+  offset: 0, 1
+  index: -1
+лук
+  rotate: false
+  xy: 2, 153
+  size: 122, 304
+  orig: 122, 304
+  offset: 0, 0
+  index: -1
+нога_1
+  rotate: true
+  xy: 2, 18
+  size: 133, 121
+  orig: 133, 121
+  offset: 0, 0
+  index: -1
+нога_2
+  rotate: true
+  xy: 357, 303
+  size: 154, 99
+  orig: 154, 99
+  offset: 0, 0
+  index: -1
+пальци
+  rotate: false
+  xy: 342, 79
+  size: 31, 42
+  orig: 33, 44
+  offset: 1, 1
+  index: -1
+рука_1
+  rotate: true
+  xy: 125, 22
+  size: 103, 143
+  orig: 103, 143
+  offset: 0, 0
+  index: -1
+рука_2
+  rotate: false
+  xy: 317, 195
+  size: 140, 74
+  orig: 140, 74
+  offset: 0, 0
+  index: -1
+тело
+  rotate: false
+  xy: 126, 271
+  size: 229, 186
+  orig: 229, 187
+  offset: 0, 1
+  index: -1
+тетева
+  rotate: true
+  xy: 125, 16
+  size: 4, 159
+  orig: 5, 159
+  offset: 0, 0
+  index: -1
+челюсть
+  rotate: false
+  xy: 317, 123
+  size: 129, 70
+  orig: 129, 70
+  offset: 0, 0
+  index: -1
