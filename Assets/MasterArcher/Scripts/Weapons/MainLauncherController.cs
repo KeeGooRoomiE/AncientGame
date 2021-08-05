@@ -265,10 +265,9 @@ public class MainLauncherController : MonoBehaviour {
 		}
 	}
 
-	/// <summary>
-	/// Check for collisions
-	/// </summary>
 	private bool isChecking = false;
+
+
 	IEnumerator OnCollisionEnter(Collision other) {
 
 		if (Time.time < timeOfShot + collisionCheckDelay) {
@@ -284,10 +283,11 @@ public class MainLauncherController : MonoBehaviour {
 		string oTag = other.collider.gameObject.tag;	//tag of the object we had collision with
 
 		//Collision with all non-player & non-enemy objects
-		if ( (oTag == "ground" || oTag == "rock" || oTag == "bird") && (gameObject.tag == "arrow" || gameObject.tag == "axe" || gameObject.tag == "bomb") ) {
+		if ( (oTag == "ground" || oTag == "rock") && (gameObject.tag == "arrow" || gameObject.tag == "axe" || gameObject.tag == "bomb") ) {
 			
 			//disable the arrow
 			stopUpdate = true;
+			canChangeALpha = false;
 			GetComponent<Rigidbody>().useGravity = false;
 			GetComponent<Rigidbody>().isKinematic = true;
 
@@ -303,48 +303,34 @@ public class MainLauncherController : MonoBehaviour {
 			trailFx.SetActive (false);
 
 			//if this is a bomb weapon, we need an explosion after collision
-			if (gameObject.tag == "bomb") {
-				GameObject exp = Instantiate(explosionFx, other.contacts[0].point + new Vector3(0,0, -1.5f), Quaternion.Euler(0, 0, 0)) as GameObject;
-				exp.name = "Explosion";
-				Destroy (gameObject, 0.01f);
-			}
+			//if (gameObject.tag == "bomb") {
+			//	GameObject exp = Instantiate(explosionFx, other.contacts[0].point + new Vector3(0,0, -1.5f), Quaternion.Euler(0, 0, 0)) as GameObject;
+			//	exp.name = "Explosion";
+			//	Destroy (gameObject, 0.01f);
+			//}
 
 			if (gameObject.tag == "arrow")
             {
 				canChangeALpha = true;
 				//tex.SetActive(false);
 				//image.SetActive(true);
-				print("able to make a bullet change its alpha");
+				//print("able to make a bullet change its alpha");
 			}
 
-			if (gameObject.tag == "axe")
-			{
-				canChangeALpha = true;
-				//tex.SetActive(false);
-				//image.SetActive(true);
-				print("able to make a bullet change its alpha");
-			}
-			//GameController.isArrowInScene = false;
-
-			//We only change turns if this game more requires an enemy
-			if (!bypassCode) {
-
-				//if (ownerID == 0)
-					//enemy.GetComponent<EnemyController> ().changeTurns ();
-				//else if (ownerID == 1)
-					//player.GetComponent<PlayerController> ().changeTurns ();
-			}
+			//if (gameObject.tag == "axe")
+			//{
+			//	canChangeALpha = true;
+			//	//tex.SetActive(false);
+			//	//image.SetActive(true);
+			//	//print("able to make a bullet change its alpha");
+			//}
 
 		}
 
-		if ((oTag == "water"))
+		if (oTag == "water" || oTag == "bird")
 		{
-
-			//disable the arrow
 			stopUpdate = true;
 			GetComponent<Rigidbody>().useGravity = false;
-			//GetComponent<Rigidbody>().isKinematic = true;
-			//GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, -1));
 			canChangeALpha = true;
 
 			if (GetComponent<BoxCollider>())
@@ -353,56 +339,12 @@ public class MainLauncherController : MonoBehaviour {
             if (GetComponent<SphereCollider>())
                 GetComponent<SphereCollider>().enabled = false;
 
+			if (GetComponent<CapsuleCollider>())
+				GetComponent<CapsuleCollider>().enabled = false;
+
             trailFx.SetActive(false);
 
 		}
-
-
-			//Collision with enemy
-			//if ( (oTag == "enemyBody" || oTag == "enemyLeg" || oTag == "enemyHead") && 
-			//	 (gameObject.tag == "arrow" || gameObject.tag == "axe" || gameObject.tag == "bomb") ) {
-
-			//	//disable the arrow
-			//	stopUpdate = true;
-			//	GetComponent<Rigidbody>().useGravity = false;
-			//	GetComponent<Rigidbody>().isKinematic = true;
-
-			//	if(GetComponent<BoxCollider> ())
-			//		GetComponent<BoxCollider> ().enabled = false;
-
-			//	if(GetComponent<SphereCollider> ())
-			//		GetComponent<SphereCollider> ().enabled = false;
-
-			//	trailFx.SetActive (false);
-			//	//GameController.isArrowInScene = false;
-			//	transform.parent = other.collider.gameObject.transform;
-
-			//	//create blood fx
-			//	if (gameObject.tag == "arrow" || gameObject.tag == "axe") {
-			//		GameObject blood = Instantiate (bloodFx, other.contacts [0].point + new Vector3 (0, 0, -1.5f), Quaternion.Euler (0, 0, 0)) as GameObject;
-			//		blood.name = "BloodFX";
-			//		Destroy (blood, 1.5f);
-			//	}
-
-			//	//if this is a bomb weapon, we need an explosion after collision
-			//	if (gameObject.tag == "bomb") {
-			//		GameObject exp = Instantiate(explosionFx, other.contacts[0].point + new Vector3(0,0, -1.5f), Quaternion.Euler(0, 0, 0)) as GameObject;
-			//		exp.name = "Explosion";
-			//		Destroy (gameObject, 0.01f);
-			//	}
-
-			//	//manage victim's helath status
-			//	//enemy.GetComponent<EnemyController> ().enemyCurrentHealth -= damage;
-
-			//	//save enemy state for lastHit. will be used if we need to move the enemy after getting hit
-			//	enemy.GetComponent<EnemyController> ().gotLastHit = true;
-
-			//	//play hit sfx
-			//	enemy.GetComponent<EnemyController> ().playRandomHitSound();
-
-			//	//change the turn
-			//	enemy.GetComponent<EnemyController> ().changeTurns();
-			//}
 
 
 			//Collision with player
@@ -445,8 +387,8 @@ public class MainLauncherController : MonoBehaviour {
 
 		//Special case - collision with birds
 		if(oTag == "bird") {
-			other.collider.gameObject.GetComponent<BirdsController> ().die ();
-			Destroy (gameObject);
+			//other.collider.gameObject.GetComponent<BirdsController> ().die ();
+			//Destroy (gameObject);
 		}
 
 
