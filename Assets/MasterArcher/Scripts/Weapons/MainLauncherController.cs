@@ -296,7 +296,10 @@ public class MainLauncherController : MonoBehaviour {
 
 			if(GetComponent<SphereCollider> ())
 				GetComponent<SphereCollider> ().enabled = false;
-			
+
+			if (GetComponent<CapsuleCollider>())
+				GetComponent<CapsuleCollider>().enabled = false;
+
 			trailFx.SetActive (false);
 
 			//if this is a bomb weapon, we need an explosion after collision
@@ -308,6 +311,14 @@ public class MainLauncherController : MonoBehaviour {
 
 			if (gameObject.tag == "arrow")
             {
+				canChangeALpha = true;
+				//tex.SetActive(false);
+				//image.SetActive(true);
+				print("able to make a bullet change its alpha");
+			}
+
+			if (gameObject.tag == "axe")
+			{
 				canChangeALpha = true;
 				//tex.SetActive(false);
 				//image.SetActive(true);
