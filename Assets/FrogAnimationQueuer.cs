@@ -20,11 +20,11 @@ public class FrogAnimationQueuer : MonoBehaviour
             _animator.Play("benc");
             collision.collider.gameObject.GetComponent<MainLauncherController>().AbleChangeAlpha(true);
         }
-        if (collision.collider.tag == "axe")
-        {
-            _animator.Play("benc");
-            collision.collider.gameObject.GetComponent<MainLauncherController>().AbleChangeAlpha(true);
-        }
+        //if (collision.collider.tag == "axe")
+        //{
+        //    _animator.Play("benc");
+        //    collision.collider.gameObject.GetComponent<MainLauncherController>().AbleChangeAlpha(true);
+        //}
 
     }
 
